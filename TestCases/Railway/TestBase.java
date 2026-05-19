@@ -44,6 +44,12 @@ public abstract class TestBase {
             action.run();
         });
     }
+    
+    protected void vp(String name, Runnable action) {
+        System.out.println("VP: " + name);
+        Allure.attachment("Verification Point", name);
+        action.run();
+    }
     //#endregion
     
     //#region Internal Methods

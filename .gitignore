@@ -6,3 +6,7 @@ target/
 
 # Github
 .github/
+
+# Allure report
+allure-results/
+allure-report/
