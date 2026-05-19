@@ -12,27 +12,28 @@ import Constants.AppConstant;
 import io.qameta.allure.Allure;
 
 public abstract class TestBase {
-    //#region Used Page Objects
+    // #region Used Page Objects
+    HomePage homePage = new HomePage();
+    LoginPage loginPage = new LoginPage();
+    // #endregion
 
-    //#endregion
+    // #region Business Flows
 
-    //#region Business Flows
+    // #endregion
 
-    //#endregion
-
-    //#region System Methods
+    // #region System Methods
     @BeforeMethod
     @Parameters("browser")
     protected void beforeMethod(@Optional("chrome") String browser) {
-       this.setBrowser(browser);
-       this.maximizeWindow();
+        this.setBrowser(browser);
+        this.maximizeWindow();
     }
 
     @AfterMethod
     protected void afterMethod() {
         this.closeBrowser();
     }
-    
+
     protected void step(String name) {
         System.out.println(name);
         Allure.step(name);
@@ -44,15 +45,15 @@ public abstract class TestBase {
             action.run();
         });
     }
-    
+
     protected void vp(String name, Runnable action) {
         System.out.println("VP: " + name);
         Allure.attachment("Verification Point", name);
         action.run();
     }
-    //#endregion
-    
-    //#region Internal Methods
+    // #endregion
+
+    // #region Internal Methods
     private void setBrowser(String browser) {
         switch (browser.toLowerCase()) {
             case "chrome":
@@ -68,15 +69,15 @@ public abstract class TestBase {
                 throw new IllegalArgumentException("Unsupported browser: " + browser);
         }
     }
-    
+
     private void maximizeWindow() {
         AppConstant.WEBDRIVER.manage().window().maximize();
     }
-    
+
     private void closeBrowser() {
         if (AppConstant.WEBDRIVER != null) {
             AppConstant.WEBDRIVER.quit();
         }
     }
-    //#endregion
+    // #endregion
 }
