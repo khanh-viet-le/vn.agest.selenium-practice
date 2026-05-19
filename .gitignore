@@ -1,0 +1,8 @@
+# Maven projects
+target/
+
+# VS Code
+.vscode/
+
+# Github
+.github/
