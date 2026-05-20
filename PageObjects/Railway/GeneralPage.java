@@ -16,10 +16,17 @@ public class GeneralPage {
 
         switch (item) {
             case HOME:
+            case LOGOUT:
                 return (T) new HomePage();
 
             case LOGIN:
                 return (T) new LoginPage();
+
+            case REGISTER:
+                return (T) new RegisterPage();
+
+            case FAQ:
+                return (T) new FAQPage();
 
             default:
                 throw new IllegalArgumentException("Invalid Menu item");
@@ -28,6 +35,10 @@ public class GeneralPage {
 
     protected void selectTab(MenuItem item) {
         Utilities.click(Utilities.getLocatorElement(_menu, item.getText()));
+    }
+
+    protected boolean checkTabDisplayed(MenuItem item) {
+        return Utilities.findElement(_menu, item.getText()).isDisplayed();
     }
     // #endregion
 }

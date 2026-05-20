@@ -15,10 +15,12 @@ public abstract class TestBase {
     // #region Used Page Objects
     HomePage homePage = new HomePage();
     LoginPage loginPage = new LoginPage();
+    RegisterPage registerPage = new RegisterPage();
+    FAQPage faqPage = new FAQPage();
     // #endregion
 
     // #region Business Flows
-
+    RegisterFlow registerFlow = new RegisterFlow();
     // #endregion
 
     // #region System Methods
