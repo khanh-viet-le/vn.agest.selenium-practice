@@ -31,6 +31,9 @@ public class GeneralPage {
             case BOOK_TICKET:
                 return (T) new BookTicketPage();
 
+            case TIMETABLE:
+                return (T) new TimetablePage();
+
             default:
                 throw new IllegalArgumentException("Invalid Menu item");
         }

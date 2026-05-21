@@ -10,3 +10,4 @@ target/
 # Allure report
 allure-results/
 allure-report/
+TestReports/

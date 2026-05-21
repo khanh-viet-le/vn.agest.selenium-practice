@@ -1,22 +1,13 @@
 package Railway;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-
+import java.lang.reflect.Method;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
-import org.openqa.selenium.firefox.FileExtension;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
-
-import Common.Utilities;
 import Constants.AppConstant;
 import io.qameta.allure.Allure;
 
@@ -24,7 +15,7 @@ public abstract class TestBase {
     // #region System Methods
     @BeforeMethod
     @Parameters("browser")
-    protected void beforeMethod(@Optional("chrome") String browser) {
+    protected void beforeMethod(@Optional("chrome") String browser, Method method) {
         this.setBrowser(browser);
         this.maximizeWindow();
     }
@@ -52,6 +43,10 @@ public abstract class TestBase {
         action.run();
     }
 
+    protected void test(String description) {
+        System.out.println(description);
+        Allure.description(description);
+    }
     // #endregion
 
     // #region Internal Methods

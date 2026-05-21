@@ -34,8 +34,10 @@ public class LoginTest extends TestBase {
         loginPage = homePage.goToPage(MenuItem.LOGIN);
     }
 
-    @Test(description = "User can log into Railway with valid username and password")
+    @Test
     public void TC01() {
+        test("TC01 - User can log into Railway with valid username and password");
+
         step("1. Navigate to QA Railway Website");
         step("2. Click on \"Login\" tab");
 

@@ -1,6 +1,5 @@
 package Common;
 
-import java.io.File;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,8 +10,6 @@ import java.util.Set;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.WindowType;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -103,11 +100,15 @@ public class Utilities {
 	}
 
 	public static void selectByVisibleText(By locator, String text) {
+		waitForVisible(locator);
+		scrollToElement(locator);
 		Select select = new Select(findElement(locator));
 		select.selectByVisibleText(text);
 	}
 
 	public static void selectByIndex(By locator, int index) {
+		waitForVisible(locator);
+		scrollToElement(locator);
 		Select select = new Select(findElement(locator));
 		select.selectByIndex(index);
 	}
@@ -117,9 +118,16 @@ public class Utilities {
 		return select.getFirstSelectedOption().getText().trim();
 	}
 
-	public static List<String> getAllSelectOptions(By locator, WebElement departElement, String departFrom) {
-		selectByVisibleText(departElement, departFrom);
+	public static void selectByValue(By locator, String value) {
+		waitForVisible(locator);
+		scrollToElement(locator);
+		Select select = new Select(findElement(locator));
+		select.selectByValue(value);
+	}
 
+	public static List<String> getAllSelectOptions(By locator, WebElement departElement, String departFrom) {
+		waitForVisible(locator);
+		scrollToElement(locator);
 		Select select = new Select(findElement(locator));
 
 		List<String> options = select.getOptions().stream().map(e -> e.getText().trim()).collect(Collectors.toList());

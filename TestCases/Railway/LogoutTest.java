@@ -8,19 +8,16 @@ import Constants.MenuItem;
 public class LogoutTest extends TestBase {
     // #region Used Page Objects
     HomePage homePage;
-    LoginPage loginPage;
     FAQPage faqPage;
+    LoginFlow loginFlow;
+    Account account = Account.getValid();
     // #endregion
 
     @Test(description = "User is redirected to Home page after logging out")
     public void TC06() {
-        step("1. Navigate to QA Railway Website", () -> {
-            homePage = HomePage.open();
-        });
-
+        step("1. Navigate to QA Railway Website");
         step("2. Login with valid Email and Password", () -> {
-            loginPage = homePage.goToPage(MenuItem.LOGIN);
-            homePage = loginPage.submitLogin(Account.getValid());
+            homePage = loginFlow.login(account);
         });
 
         step("3. Click on \"FAQ\" tab", () -> {

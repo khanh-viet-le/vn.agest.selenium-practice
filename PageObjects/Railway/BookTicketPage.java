@@ -27,11 +27,12 @@ public class BookTicketPage extends GeneralPage {
 
     // #region Methods
     public void submitBookTiket(Ticket ticket) {
+        Utilities.selectByValue(_departFrom, ticket.getDepartFrom().getValue() + "");
         Utilities.selectByVisibleText(_departDate, Date.formatDate(ticket.getDepartDate(), AppConstant.DATE_FORMAT));
-        Utilities.selectByVisibleText(_departFrom, ticket.getDepartFrom().getName());
-        Utilities.selectByVisibleText(_arriveAt, ticket.getArriveAt().getName());
         Utilities.selectByVisibleText(_seatType, ticket.getSeatType().getName());
-        Utilities.selectByVisibleText(_ticketAmount, ticket.getTicketAmount() + "");
+        Utilities.selectByValue(_ticketAmount, ticket.getTicketAmount() + "");
+        Utilities.selectByValue(_arriveAt, ticket.getArriveAt().getValue() + "");
+
         Utilities.click(_submitBooking);
     }
 
