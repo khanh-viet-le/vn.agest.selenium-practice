@@ -12,6 +12,11 @@ public class RegisterPage extends GeneralPage {
     private final By _registerButton = By.xpath("//form[@id='RegisterForm']//input[@title='Register']");
 
     private final By _title = By.cssSelector("#content h1");
+    private final By _errorMsg = By.cssSelector("#content .message.error");
+    private final By _passError = By.cssSelector("#content .password .validation-error");
+    private final By _pidError = By.cssSelector("#content .pid-number .validation-error");
+
+    private final By _completeMsg = By.xpath("//*[@id='content']/p");
     // #endregion
 
     // #region Methods
@@ -36,6 +41,22 @@ public class RegisterPage extends GeneralPage {
 
     public String getTitle() {
         return Utilities.getText(_title);
+    }
+
+    public String getErrorMsg() {
+        return Utilities.getText(_errorMsg);
+    }
+
+    public String getPassError() {
+        return Utilities.getText(_passError);
+    }
+
+    public String getPidError() {
+        return Utilities.getText(_pidError);
+    }
+
+    public String getCompleteMsg() {
+        return Utilities.getText(_completeMsg);
     }
     // #endregion
 }

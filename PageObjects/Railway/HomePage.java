@@ -14,9 +14,9 @@ public class HomePage extends GeneralPage {
     // #endregion
 
     // #region Methods
-    public HomePage open() {
+    public static HomePage open() {
         Utilities.open(AppConstant.RAILWAY_URL);
-        return this;
+        return new HomePage();
     }
 
     public String getWelcomeMsg() {
@@ -25,6 +25,21 @@ public class HomePage extends GeneralPage {
 
     public String getTitle() {
         return Utilities.getText(_title);
+    }
+
+    @SuppressWarnings("null")
+    private By getLinkByText(String text) {
+        return By.linkText(text);
+    }
+
+    public boolean checkLinkDisplayedByText(String text) {
+        return Utilities.findElement(getLinkByText(text)).isDisplayed();
+    }
+
+    public RegisterPage clickLinkByText(String text) {
+        Utilities.click(Utilities.findElement(getLinkByText(text)));
+
+        return new RegisterPage();
     }
     // #endregion
 

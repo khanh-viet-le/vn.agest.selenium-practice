@@ -28,6 +28,9 @@ public class GeneralPage {
             case FAQ:
                 return (T) new FAQPage();
 
+            case BOOK_TICKET:
+                return (T) new BookTicketPage();
+
             default:
                 throw new IllegalArgumentException("Invalid Menu item");
         }

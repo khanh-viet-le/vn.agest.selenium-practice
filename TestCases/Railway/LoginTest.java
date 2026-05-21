@@ -11,10 +11,18 @@ import Constants.ValidAccount;
 
 public class LoginTest extends TestBase {
 
+    // #region Constants
     private static final Account validAcc = Account.getValid();
     private static final Account blankEmailAcc = new Account("");
     private static final Account invalidPassAcc = new Account(ValidAccount.EMAIL, "invalidPass");
     private static final Account randomAcc = Account.getRandom();
+    // #endregion
+
+    // #region Used Page Objects
+    HomePage homePage;
+    LoginPage loginPage;
+    RegisterFlow registerFlow = new RegisterFlow();
+    // #endregion
 
     @BeforeMethod
     private void setUp(Method method) {
@@ -22,7 +30,7 @@ public class LoginTest extends TestBase {
             Assert.assertTrue(registerFlow.register(randomAcc));
         }
 
-        homePage = homePage.open();
+        homePage = HomePage.open();
         loginPage = homePage.goToPage(MenuItem.LOGIN);
     }
 

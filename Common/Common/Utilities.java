@@ -1,5 +1,6 @@
 package Common;
 
+import java.io.File;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,6 +11,8 @@ import java.util.Set;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.WindowType;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -21,23 +24,28 @@ import Constants.AppConstant;
 import Constants.Timeout;
 
 public class Utilities {
-    //#region WebDriver Actions
-    public static WebElement findElement(By locator) {
+	// #region WebDriver Actions
+	@SuppressWarnings("null")
+	public static WebElement findElement(By locator) {
 		return AppConstant.WEBDRIVER.findElement(locator);
 	}
 
+	@SuppressWarnings("null")
 	public static List<WebElement> findElements(By locator) {
 		return AppConstant.WEBDRIVER.findElements(locator);
 	}
 
+	@SuppressWarnings("null")
 	public static WebElement findElement(String locator, Object... args) {
 		return findElement(By.xpath(String.format(locator, args)));
 	}
 
+	@SuppressWarnings("null")
 	public static By getLocatorElement(String locator, Object... args) {
 		return By.xpath(String.format(locator, args));
 	}
 
+	@SuppressWarnings("null")
 	public static void open(String url) {
 		AppConstant.WEBDRIVER.navigate().to(url);
 	}
@@ -50,7 +58,7 @@ public class Utilities {
 		waitForVisible(locator);
 		findElement(locator).clear();
 	}
-	
+
 	public static void enter(By locator, String string) {
 		waitForVisible(locator);
 		scrollToElement(locator);
@@ -85,10 +93,10 @@ public class Utilities {
 		JavascriptExecutor js = (JavascriptExecutor) AppConstant.WEBDRIVER;
 		js.executeScript("arguments[0].click();", findElement(locator));
 	}
-    //#endregion
+	// #endregion
 
-    //#region Select Actions
-    public static void selectByVisibleText(WebElement element, String text) {
+	// #region Select Actions
+	public static void selectByVisibleText(WebElement element, String text) {
 		scrollToElement(element);
 		Select select = new Select(element);
 		select.selectByVisibleText(text);
@@ -120,10 +128,10 @@ public class Utilities {
 
 		return options;
 	}
-    //#endregion
+	// #endregion
 
-    //#region Scroll Actions
-    public static void scrollToElement(By locator) {
+	// #region Scroll Actions
+	public static void scrollToElement(By locator) {
 		JavascriptExecutor js = (JavascriptExecutor) AppConstant.WEBDRIVER;
 		js.executeScript("arguments[0].scrollIntoView({block:'center'});", findElement(locator));
 	}
@@ -132,13 +140,14 @@ public class Utilities {
 		JavascriptExecutor js = (JavascriptExecutor) AppConstant.WEBDRIVER;
 		js.executeScript("arguments[0].scrollIntoView({block:'center'});", element);
 	}
-    //#endregion
+	// #endregion
 
-    //#region Waits
-    public static By waitForClickable(By locator) {
+	// #region Waits
+	public static By waitForClickable(By locator) {
 		return waitForClickable(locator, Timeout.DEFAULT);
 	}
 
+	@SuppressWarnings("null")
 	public static By waitForClickable(By locator, int timeout) {
 		WebDriverWait wait = new WebDriverWait(AppConstant.WEBDRIVER, Duration.ofSeconds(timeout));
 		wait.until(ExpectedConditions.elementToBeClickable(locator));
@@ -149,25 +158,27 @@ public class Utilities {
 		return waitForVisible(locator, Timeout.DEFAULT);
 	}
 
+	@SuppressWarnings("null")
 	public static By waitForVisible(By locator, int timeout) {
 		WebDriverWait wait = new WebDriverWait(AppConstant.WEBDRIVER, Duration.ofSeconds(timeout));
 		wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
 		return locator;
 	}
 
+	@SuppressWarnings("null")
 	public static void waitUntilStale(WebElement element) {
 		try {
 			WebDriverWait wait = new WebDriverWait(AppConstant.WEBDRIVER, Duration.ofSeconds(5));
 			wait.until(ExpectedConditions.stalenessOf(element));
 		} catch (Exception e) {
-            //ingore exception
+			// ingore exception
 		}
 
 	}
-    //#endregion
+	// #endregion
 
-    //#region Wait Alerts
-    public static Alert waitForAlertVisible() {
+	// #region Wait Alerts
+	public static Alert waitForAlertVisible() {
 		return waitForAlertVisible(Timeout.DEFAULT);
 	}
 
@@ -175,27 +186,34 @@ public class Utilities {
 		WebDriverWait wait = new WebDriverWait(AppConstant.WEBDRIVER, Duration.ofSeconds(timeout));
 		return wait.until(ExpectedConditions.alertIsPresent());
 	}
-	//#endregion
+	// #endregion
 
-    //#region Switch To Actions
+	// #region Switch To Actions
+	@SuppressWarnings("null")
 	public static void switchToFirstTab() {
 		List<String> tabs = new ArrayList<>(AppConstant.WEBDRIVER.getWindowHandles());
 		AppConstant.WEBDRIVER.switchTo().window(tabs.get(0));
 	}
 
-	public static void switchToAndOpend(String url) {
+	public static void switchToNewTab() {
 		AppConstant.WEBDRIVER.switchTo().newWindow(WindowType.TAB);
-		AppConstant.WEBDRIVER.get(url);
+		WebDriverWait wait = new WebDriverWait(AppConstant.WEBDRIVER, Duration.ofSeconds(Timeout.DEFAULT));
+		wait.until(d -> d.getWindowHandles().size() > 1);
 	}
 
+	@SuppressWarnings("null")
 	public static void switchToLastTab() {
 		Set<String> windows = AppConstant.WEBDRIVER.getWindowHandles();
 		String lastWindow = windows.toArray(new String[0])[windows.size() - 1];
 		AppConstant.WEBDRIVER.switchTo().window(lastWindow);
 	}
-    //#endregion
 
-    //#region Alerts
+	public static void closeTab() {
+		AppConstant.WEBDRIVER.close();
+	}
+	// #endregion
+
+	// #region Alerts
 	public static String getConfirmationText() {
 		Alert alert = waitForAlertVisible();
 		return alert.getText();
@@ -204,10 +222,10 @@ public class Utilities {
 	public static void acceptAlertConfirmation() {
 		waitForAlertVisible().accept();
 	}
-    //#endregion
+	// #endregion
 
-    //#region Table Handlers
-    public static Map<String, Integer> getHeaderIndexMap(WebElement table) {
+	// #region Table Handlers
+	public static Map<String, Integer> getHeaderIndexMap(WebElement table) {
 
 		List<WebElement> headers = table.findElements(By.tagName("th"));
 
@@ -231,6 +249,5 @@ public class Utilities {
 
 		return cells.get(index - 1).getText().trim();
 	}
-    //#endregion
-
+	// #endregion
 }

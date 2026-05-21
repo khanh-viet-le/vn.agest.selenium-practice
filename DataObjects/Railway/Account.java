@@ -1,6 +1,7 @@
 package Railway;
 
 import Common.Random;
+import Constants.AppConstant;
 import Constants.ValidAccount;
 
 public class Account {
@@ -60,7 +61,7 @@ public class Account {
     }
 
     public static Account getRandom() {
-        String randomMail = Random.generateEmail("guerrillamail.com");
+        String randomMail = Random.generateEmail(AppConstant.MAIL_HOST);
         return new Account(randomMail);
     }
 

@@ -6,10 +6,16 @@ import org.testng.annotations.Test;
 import Constants.MenuItem;
 
 public class LogoutTest extends TestBase {
+    // #region Used Page Objects
+    HomePage homePage;
+    LoginPage loginPage;
+    FAQPage faqPage;
+    // #endregion
+
     @Test(description = "User is redirected to Home page after logging out")
     public void TC06() {
         step("1. Navigate to QA Railway Website", () -> {
-            homePage = homePage.open();
+            homePage = HomePage.open();
         });
 
         step("2. Login with valid Email and Password", () -> {

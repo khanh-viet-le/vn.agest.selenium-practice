@@ -5,7 +5,7 @@ package Constants;
  */
 public class Timeout {
     public static final int DEFAULT = 30;
-    public static final int MAX_WAIT = 60;
+    public static final int MAX_WAIT = 300;
 
     public static final int SHORT_WAIT = 5;
     public static final int MEDIUM_WAIT = 10;
