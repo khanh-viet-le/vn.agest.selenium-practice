@@ -9,12 +9,14 @@ public class LogoutTest extends TestBase {
     // #region Used Page Objects
     HomePage homePage;
     FAQPage faqPage;
-    LoginFlow loginFlow;
+    LoginFlow loginFlow = new LoginFlow();
     Account account = Account.getValid();
     // #endregion
 
-    @Test(description = "User is redirected to Home page after logging out")
+    @Test
     public void TC06() {
+        test("TC06 - User is redirected to Home page after logging out");
+
         step("1. Navigate to QA Railway Website");
         step("2. Login with valid Email and Password", () -> {
             homePage = loginFlow.login(account);

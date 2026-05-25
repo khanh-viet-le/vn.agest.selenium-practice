@@ -18,8 +18,10 @@ public class CreateAccountTest extends TestBase {
     MailPage mailPage;
     // #endregion
 
-    @Test(description = "User can't create account with an already in-use email")
+    @Test
     public void TC07() {
+        test("TC07 - User can't create account with an already in-use email");
+
         step("Pre-condition: an actived account is existing", () -> {
             account = Account.getValid();
         });
@@ -43,8 +45,10 @@ public class CreateAccountTest extends TestBase {
         });
     }
 
-    @Test(description = "User can't create account while password and PID fields are empty")
+    @Test
     public void TC08() {
+        test("TC08 - User can't create account while password and PID fields are empty");
+
         step("1. Navigate to QA Railway Website", () -> {
             homePage = HomePage.open();
         });
@@ -79,8 +83,10 @@ public class CreateAccountTest extends TestBase {
         });
     }
 
-    @Test(description = "User create and activate account")
+    @Test
     public void TC09() {
+        test("TC09 - User create and activate account");
+
         step("1. Navigate to QA Railway Website", () -> {
             homePage = HomePage.open();
 

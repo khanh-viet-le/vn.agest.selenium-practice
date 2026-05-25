@@ -5,10 +5,6 @@ import Constants.AppConstant;
 import Constants.ValidAccount;
 
 public class Account {
-    // #region Constants
-    private static final String COMMON_PID = "12345678";
-    // #endregion
-
     // #region Properties
     private String email;
     private String password;
@@ -50,14 +46,14 @@ public class Account {
 
     Account(String email, String password) {
         this.email = email;
-        this.password = ValidAccount.PASSWORD;
-        this.pid = COMMON_PID;
+        this.password = password;
+        this.pid = AppConstant.COMMON_PID;
     }
 
     Account(String email) {
         this.email = email;
         this.password = ValidAccount.PASSWORD;
-        this.pid = COMMON_PID;
+        this.pid = AppConstant.COMMON_PID;
     }
 
     public static Account getRandom() {

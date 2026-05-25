@@ -10,7 +10,8 @@ public enum MenuItem {
     BOOK_TICKET("Book ticket"),
     REGISTER("Register"),
     LOGIN("Login"),
-    LOGOUT("Log out");
+    LOGOUT("Log out"),
+    MY_TICKET("My ticket");
 
     private final String displayText;
 

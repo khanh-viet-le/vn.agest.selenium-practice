@@ -16,4 +16,12 @@ public class Date {
     public static LocalDate getDateFromString(String date, String format) {
         return LocalDate.parse(date, DateTimeFormatter.ofPattern(format));
     }
+
+    public static LocalDate plusDaysOfDate(LocalDate date, int days) {
+        return date.plusDays(days);
+    }
+
+    public static LocalDate getDateFromDate(String date, String format, int days) {
+        return getDateFromString(date, format).plusDays(days);
+    }
 }

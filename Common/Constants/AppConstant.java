@@ -13,4 +13,7 @@ public class AppConstant {
     public static final String MAIL_HOST = "guerrillamail.com";
 
     public static final String DATE_FORMAT = "M/d/yyyy";
+    public static final String DATE_FORMAT_REGEX = "\\d{1,2}/\\d{1,2}/\\d{4}";
+
+    public static final String COMMON_PID = "12345678";
 }

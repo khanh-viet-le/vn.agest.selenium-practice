@@ -1,6 +1,8 @@
 package Railway;
 
 import java.time.LocalDate;
+
+import Common.Date;
 import Constants.SeatType;
 import Constants.Station;
 
@@ -15,7 +17,7 @@ public class Ticket {
     // #endregion
 
     public Ticket() {
-        this.departDate = LocalDate.now();
+        this.departDate = Date.getDateFromNow(3);
         this.bookDate = LocalDate.now();
         this.departFrom = Station.SAI_GON;
         this.arriveAt = Station.PHAN_THIET;
@@ -79,7 +81,7 @@ public class Ticket {
 
     @Override
     public String toString() {
-        return "Ticket [arriveAt=" + arriveAt + ", bookDate=" + bookDate + ", departDate="
+        return "Ticket [arriveAt=" + arriveAt + ", departDate="
                 + departDate + ", departFrom=" + departFrom + ", seatType=" + seatType + ", ticketAmount="
                 + ticketAmount + "]";
     }

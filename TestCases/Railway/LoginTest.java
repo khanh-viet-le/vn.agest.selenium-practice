@@ -53,8 +53,10 @@ public class LoginTest extends TestBase {
         });
     }
 
-    @Test(description = "User cannot login with blank \"Username\" textbox")
+    @Test
     public void TC02() {
+        test("TC02 - User cannot login with blank \"Username\" textbox");
+
         step("1. Navigate to QA Railway Website");
         step("2. Click on \"Login\" tab");
 
@@ -73,14 +75,22 @@ public class LoginTest extends TestBase {
                 });
     }
 
-    @Test(description = "User cannot log into Railway with invalid password ")
+    /**
+     * @note Error message is not displayed as expected. expected [There was a
+     *       problem with your login and/or errors exist in your form.] but found
+     *       [Invalid username or password. Please try again.]
+     */
+    @Test
     public void TC03() {
+        test("TC03 - User cannot log into Railway with invalid password");
+
         step("1. Navigate to QA Railway Website");
         step("2. Click on \"Login\" tab");
 
         step("3. Enter valid Email and invalid Password");
         step("4. Click on \"Login\" button", () -> {
             loginPage.submitLogin(invalidPassAcc);
+            log("Login Account: " + invalidPassAcc);
 
             vp("Error message \"There was a problem with your login and/or errors exist in your form.\" is displayed",
                     () -> {
@@ -91,8 +101,16 @@ public class LoginTest extends TestBase {
         });
     }
 
-    @Test(description = "System shows message when user enters wrong password many times")
+    /**
+     * @note Error message is not displayed as expected. expected [You have used 4
+     *       out of 5 login attempts. After all 5 have been used, you will be unable
+     *       to login for 15 minutes.] but found [Invalid username or password.
+     *       Please try again.]
+     */
+    @Test
     public void TC04() {
+        test("TC04 - System shows message when user enters wrong password many times");
+
         step("1. Navigate to QA Railway Website");
         step("2. Click on \"Login\" tab");
 
@@ -122,8 +140,10 @@ public class LoginTest extends TestBase {
         });
     }
 
-    @Test(description = "User can't login with an account hasn't been activated")
+    @Test
     public void TC05() {
+        test("TC05 - User can't login with an account hasn't been activated");
+
         step("Pre-condition: a not-active account is existing");
         step("1. Navigate to QA Railway Website");
         step("2. Click on \"Login\" tab");

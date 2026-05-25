@@ -60,5 +60,20 @@ public class BookTicketPage extends GeneralPage {
 
         return tickets;
     }
+
+    public Ticket getCurrentTicket() {
+        Ticket ticket = new Ticket();
+        ticket.setDepartDate(
+                Date.getDateFromString(
+                        Utilities.getSelectedOptionText(_departDate),
+                        AppConstant.DATE_FORMAT));
+        ticket.setDepartFrom(Station.getByName(Utilities.getSelectedOptionText(_departFrom)));
+        ticket.setArriveAt(Station.getByName(Utilities.getSelectedOptionText(_arriveAt)));
+        ticket.setSeatType(SeatType.getByName(Utilities.getSelectedOptionText(_seatType)));
+        ticket.setTicketAmount(
+                Integer.parseInt(Utilities.getSelectedOptionText(_ticketAmount)));
+
+        return ticket;
+    }
     // #endregion
 }

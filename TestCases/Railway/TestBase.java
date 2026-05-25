@@ -43,9 +43,16 @@ public abstract class TestBase {
         action.run();
     }
 
-    protected void test(String description) {
+    protected void test(Object description) {
         System.out.println(description);
-        Allure.description(description);
+        Allure.description(description.toString());
+    }
+
+    protected void log(Object... text) {
+        for (Object t : text) {
+            Allure.attachment("LOG ", t.toString());
+            System.out.println("LOG " + t.toString());
+        }
     }
     // #endregion
 

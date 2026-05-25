@@ -1,6 +1,10 @@
 package Railway;
 
+import java.util.List;
+import java.util.Map;
+
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import Common.Date;
@@ -17,20 +21,29 @@ public class BookTicketTest extends TestBase {
     TimetablePage timetablePage;
     RegisterFlow registerFlow = new RegisterFlow();
     LoginFlow loginFlow = new LoginFlow();
+    Ticket ticket;
     // #endregion
 
-    @Test(description = "User can book 1 ticket at a time")
-    public void TC12() {
-        step("Pre-condition: an actived account is existing", () -> {
-            account = Account.getRandom();
-            registerFlow.register(account);
-            registerFlow.activate(account);
-        });
+    @BeforeMethod
+    private void setUp() {
+        // #region Register new account and activate it
+        account = Account.getRandom();
+        registerFlow.register(account);
+        registerFlow.activate(account);
+        // #endregion
 
+        // #region Navigate to AUT and login with new account
+        homePage = loginFlow.login(account);
+        // #endregion
+    }
+
+    @Test
+    public void TC12() {
+        test("TC12 - User can book 1 ticket at a time");
+
+        step("Pre-condition: an actived account is existing");
         step("1. Navigate to QA Railway Website");
-        step("2. Login with a valid account", () -> {
-            homePage = loginFlow.login(account);
-        });
+        step("2. Login with a valid account");
 
         step("3. Click on \"Book ticket\" tab", () -> {
             bookTicketPage = homePage.goToPage(MenuItem.BOOK_TICKET);
@@ -49,6 +62,7 @@ public class BookTicketTest extends TestBase {
             ticket.setTicketAmount(1);
 
             bookTicketPage.submitBookTiket(ticket);
+            log("Booked Ticket: " + ticket);
 
             vp("Message \"Ticket booked successfully!\" displays.",
                     () -> {
@@ -58,24 +72,24 @@ public class BookTicketTest extends TestBase {
 
             vp("Ticket information display correctly (Depart Date,  Depart Station,  Arrive Station,  Seat Type,  Amount)",
                     () -> {
-                        Assert.assertListContains(bookTicketPage.getBookedTicketList(), t -> t.isEqual(ticket),
+                        List<Ticket> bookedTickets = bookTicketPage.getBookedTicketList();
+                        log("Booked Tickets: " + bookedTickets);
+
+                        Assert.assertListContains(
+                                bookedTickets,
+                                t -> t.isEqual(ticket),
                                 "Ticket information is not displayed as expected.");
                     });
         });
     }
 
-    @Test(description = "User can book many tickets at a time")
+    @Test
     public void TC13() {
-        step("Pre-condition: an actived account is existing", () -> {
-            account = Account.getRandom();
-            registerFlow.register(account);
-            registerFlow.activate(account);
-        });
+        test("TC13 - User can book many tickets at a time");
 
+        step("Pre-condition: an actived account is existing");
         step("1. Navigate to QA Railway Website");
-        step("2. Login with a valid account", () -> {
-            homePage = loginFlow.login(account);
-        });
+        step("2. Login with a valid account");
 
         step("3. Click on \"Book ticket\" tab", () -> {
             bookTicketPage = homePage.goToPage(MenuItem.BOOK_TICKET);
@@ -94,6 +108,7 @@ public class BookTicketTest extends TestBase {
             ticket.setTicketAmount(5);
 
             bookTicketPage.submitBookTiket(ticket);
+            log("Booked Ticket: " + ticket);
 
             vp("Message \"Ticket booked successfully!\" displays.",
                     () -> {
@@ -103,69 +118,102 @@ public class BookTicketTest extends TestBase {
 
             vp("Ticket information display correctly (Depart Date,  Depart Station,  Arrive Station,  Seat Type,  Amount)",
                     () -> {
-                        System.err.println(bookTicketPage.getBookedTicketList());
-                        System.out.println(ticket);
-                        Assert.assertListContains(bookTicketPage.getBookedTicketList(), t -> t.isEqual(ticket),
+                        List<Ticket> bookedTickets = bookTicketPage.getBookedTicketList();
+                        log("Booked Tickets: " + bookedTickets);
+
+                        Assert.assertListContains(
+                                bookedTickets,
+                                t -> t.isEqual(ticket),
                                 "Ticket information is not displayed as expected.");
                     });
         });
     }
 
-    @Test(description = "User can check price of ticket from Timetable")
+    @Test
     public void TC14() {
-        step("Pre-condition: an actived account is existing", () -> {
-            account = Account.getRandom();
-            registerFlow.register(account);
-            registerFlow.activate(account);
-        });
+        test("TC14 - User can check price of ticket from Timetable");
 
+        step("Pre-condition: an actived account is existing");
         step("1. Navigate to QA Railway Website");
-        step("2. Login with a valid account", () -> {
-            homePage = loginFlow.login(account);
-        });
+        step("2. Login with a valid account");
 
         step("3. Click on \"Timetable\" tab", () -> {
             timetablePage = homePage.goToPage(MenuItem.TIMETABLE);
         });
 
         step("4. Click on \"check price\" link of the route from \"Đà Nẵng\" to \"Sài Gòn\"", () -> {
+            timetablePage = timetablePage.accessCheckPrice(Station.DA_NANG, Station.SAI_GON);
+
             vp("Price for each seat displays correctly: HS = 310000, SS = 335000, SSC = 360000, HB = 410000, SB = 460000, SBC = 510000",
                     () -> {
+                        Map<SeatType, Integer> prices = timetablePage.getTicketPrices();
+
+                        Assert.assertTrue(prices.get(SeatType.HARD_SEAT) == 310000,
+                                "Hard seat price is not displayed as expected.");
+                        Assert.assertTrue(prices.get(SeatType.SOFT_SEAT) == 335000,
+                                "Soft seat price is not displayed as expected.");
+                        Assert.assertTrue(prices.get(SeatType.SOFT_SEAT_WITH_AC) == 360000,
+                                "Soft seat with air conditioner price is not displayed as expected.");
+                        Assert.assertTrue(prices.get(SeatType.HARD_BED) == 410000,
+                                "Hard bed price is not displayed as expected.");
+                        Assert.assertTrue(prices.get(SeatType.SOFT_BED) == 460000,
+                                "Soft bed price is not displayed as expected.");
+                        Assert.assertTrue(prices.get(SeatType.SOFT_BED_WITH_AC) == 510000,
+                                "Soft bed with air conditioner price is not displayed as expected.");
                     });
         });
     }
 
-    @Test(description = "User can book ticket from Timetable")
+    @Test
     public void TC15() {
-        step("Pre-condition: an actived account is existing", () -> {
-            account = Account.getRandom();
-            registerFlow.register(account);
-            registerFlow.activate(account);
-        });
+        test("TC15 - User can book ticket from Timetable");
 
+        step("Pre-condition: an actived account is existing");
         step("1. Navigate to QA Railway Website");
-        step("2. Login with a valid account", () -> {
-            homePage = loginFlow.login(account);
-        });
+        step("2. Login with a valid account");
 
         step("3. Click on \"Timetable\" tab", () -> {
             timetablePage = homePage.goToPage(MenuItem.TIMETABLE);
         });
 
         step("4. Click on book ticket of route \"Quảng Ngãi\" to \"Huế\"", () -> {
+            bookTicketPage = timetablePage.navigateToBookTicketPage(Station.QUANG_NGAI, Station.HUE);
+            ticket = bookTicketPage.getCurrentTicket();
+
+            log("Current Ticket:" + ticket);
+
             vp("Book ticket form is shown with the corrected \"depart from\" and \"Arrive at\"", () -> {
+                Assert.assertEquals(ticket.getDepartFrom().getName(), "Quảng Ngãi",
+                        "Depart from is not displayed as expected.");
+                Assert.assertEquals(ticket.getArriveAt().getName(), "Huế",
+                        "Arrive at is not displayed as expected.");
             });
         });
 
-        step("5. Select Depart date = tomorrow", () -> {
-        });
-
-        step("6. Select Ticket amount = 5", () -> {
-        });
-
+        step("5. Select Depart date = tomorrow");
+        step("6. Select Ticket amount = 5");
         step("7. Click on \"Book ticket\" button", () -> {
-            vp("Message \"Ticket booked successfully!\" displays. Ticket information display correctly (Depart Date,  Depart Station,  Arrive Station,  Seat Type,  Amount)",
+            ticket.setDepartDate(Date.plusDaysOfDate(ticket.getDepartDate(), 1));
+            ticket.setTicketAmount(5);
+
+            bookTicketPage.submitBookTiket(ticket);
+            log("Booked Ticket: " + ticket);
+
+            vp("Message \"Ticket booked successfully!\" displays.",
                     () -> {
+                        Assert.assertEquals(bookTicketPage.getTitle(), "Ticket booked successfully!",
+                                "Title is not displayed as expected.");
+                    });
+
+            vp("Ticket information display correctly (Depart Date,  Depart Station,  Arrive Station,  Seat Type,  Amount)",
+                    () -> {
+                        List<Ticket> bookTickets = bookTicketPage.getBookedTicketList();
+                        log("Booked Tickets: " + bookTickets);
+
+                        Assert.assertListContains(
+                                bookTickets,
+                                t -> t.isEqual(ticket),
+                                "Ticket information is not displayed as expected.");
                     });
         });
     }

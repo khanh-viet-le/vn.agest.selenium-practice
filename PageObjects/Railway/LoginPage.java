@@ -10,7 +10,7 @@ public class LoginPage extends GeneralPage {
     private final By _password = By.xpath("//form[@class='LoginForm']//input[@id='password']");
     private final By _loginButton = By.xpath("//form[@class='LoginForm']//input[@title='Login']");
 
-    private final By _errorMsg = By.cssSelector("#content .message.error");
+    private final By _errorMsg = By.cssSelector("#content .message");
 
     private final By _passResetEmail = By.xpath("//form//input[@id='email']");
     private final By _passResetButton = By.xpath("//form//input[@type='submit']");

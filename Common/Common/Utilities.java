@@ -68,10 +68,40 @@ public class Utilities {
 		return findElement(locator).getText();
 	}
 
+	public static String getSelectedOptionText(By locator) {
+		waitForVisible(locator);
+		scrollToElement(locator);
+		Select select = new Select(findElement(locator));
+		WebElement selectedOption = select.getFirstSelectedOption();
+		return selectedOption.getText();
+	}
+
+	public static List<String> getTextList(By locator) {
+		waitForVisible(locator);
+		List<String> textList = new ArrayList<>();
+		for (WebElement element : findElements(locator)) {
+			textList.add(element.getText());
+		}
+
+		return textList;
+	}
+
 	public static String getText(String locator, Object... args) {
 		By locatorElement = getLocatorElement(locator, args);
 		waitForVisible(locatorElement);
 		return findElement(locatorElement).getText();
+	}
+
+	public static List<String> getTextList(String locator, Object... args) {
+		By locatorElement = getLocatorElement(locator, args);
+		waitForVisible(locatorElement);
+
+		List<String> textList = new ArrayList<>();
+		for (WebElement element : findElements(locatorElement)) {
+			textList.add(element.getText());
+		}
+
+		return textList;
 	}
 
 	public static void click(By locator) {

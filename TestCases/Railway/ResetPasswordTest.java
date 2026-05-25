@@ -17,8 +17,15 @@ public class ResetPasswordTest extends TestBase {
     MailPage mailPage;
     // #endregion
 
-    @Test(description = "Reset password shows error if the new password is same as current")
+    /**
+     * @note Error message is not displayed as expected. expected [The new password
+     *       cannot be the same with the current password] but found [Password
+     *       changed! Click here to login.]
+     */
+    @Test
     public void TC10() {
+        test("TC10 - Reset password shows error if the new password is same as current");
+
         step("Pre-condition: an actived account is existing", () -> {
             account = Account.getRandom();
             registerFlow.register(account);
@@ -72,8 +79,10 @@ public class ResetPasswordTest extends TestBase {
         });
     }
 
-    @Test(description = "Reset password shows error if the new password and confirm password doesn't match")
+    @Test
     public void TC11() {
+        test("TC11 - Reset password shows error if the new password and confirm password doesn't match");
+
         step("Pre-condition: an actived account is existing", () -> {
             account = Account.getRandom();
             registerFlow.register(account);
